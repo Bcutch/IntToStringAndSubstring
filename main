@@ -21,7 +21,7 @@ public class Main {
                 }
             }
 
-            if (j == length1) {
+            if (j == (length1)) {
                 return i;
             }
         }
@@ -36,6 +36,8 @@ public class Main {
         String word = null;
         boolean same = false;
         int Num = 0;
+        int length = 0;
+        int n = 0;
         //created variables needed later on in the code.
 
         System.out.println("Please enter file name.");
@@ -46,35 +48,52 @@ public class Main {
 
 
         try {
+
             File file = new File(userFile);
             Scanner scan = new Scanner(file);
             int position = 0;
+
             for (int i = 0; i < 100; i++){
+
                 array[i][0] = "INVALID";
             }
+
             for (int i = 0; i < 100; i++){
+
                 array[i][1] = "1";
             }
 
             while (!fileDone) {
+
                 if (scan.hasNext()) {
+
                     same = false;
                     word = scan.next();
                     word = word.toLowerCase();
 
                     for (int i = 0; i < 100; i++){
+
                         if (word.equals(array[i][0])){
+
                             same = true;
                             Num = i;
                         }
                     }
 
                     if (same){
+
                         array[Num][1] = Integer.toString(Integer.parseInt(array[Num][1]) + 1);
                     }
+
                     if (!same) {
+
                         array[position][0] = word;
+                        length = array[position][0].length();
                         position++;
+                    }
+
+                    if (length > n) {
+                        n = length;
                     }
                 }
                 else {
@@ -84,31 +103,80 @@ public class Main {
             }
         }
         catch (FileNotFoundException e) {
+
             System.out.println(e);
             e.printStackTrace();
         }
 
         String subArray[][] = new String[100][100];
-        int collumn = 0;
+        int column = 0;
 
         for (int i = 0; i < 100; i++) {
-            for (int j = 0; j < 100; j++) {
-                if (!array[i][0].equals("INVALID") && !array[j][0].equals("INVALID")) {
-                    if (!array[i][0].equals(array[j][0])) {
-                        int check = SubString(array[j][0], array[i][0]);
 
-                        if ()
-                    }
-                }
+            for (int j = 0; j < 100; j++) {
+
+                subArray[i][j] = "INVALID";
             }
         }
+
+
+        for (int i = 0; i < 100; i++) {
+
+            for (int j = 0; j < 100; j++) {
+
+                if (!array[i][0].equals("INVALID") && !array[j][0].equals("INVALID")) {
+
+                    if (!array[i][0].equals(array[j][0])) {
+
+                        int check = SubString(array[j][0], array[i][0]);
+
+                        if (check != -1) {
+
+                            subArray[column][j] = array[j][0];
+
+                        }
+                    }
+                }
+
+            }
+
+            column++;
+        }
+
 
 
         System.out.println();
 
         for (int i = 0; i < 100; i++) {
             if (!array[i][0].equals("INVALID")) {
-                System.out.println(array[i][0] + "   frequency of:" + array[i][1]);
+
+                if (array[i][0].length() >= 8){
+                    System.out.printf(array[i][0] + "\t\t" + " frequency of:" + array[i][1]);
+                    System.out.printf("\t\tSubstrings of " + array[i][0] + ": ");
+                }
+                else if (array[i][0].length() >= 15){
+                    System.out.printf(array[i][0] + "\t" + " frequency of:" + array[i][1]);
+                    System.out.printf("\t\tSubstrings of " + array[i][0] + ": ");
+                }
+                else{
+                    System.out.printf(array[i][0] + "\t\t\t" + " frequency of:" + array[i][1]);
+                    System.out.printf("\t\tSubstrings of " + array[i][0] + ": ");
+                }
+
+
+
+                for (int j = 0; j < 100; j++) {
+
+                    if (!subArray[i][j].equals("INVALID")) {
+
+                        System.out.print(subArray[i][j]);
+
+                    }
+
+                }
+
+                System.out.println();
+
             }
         }
 
